@@ -1,10 +1,12 @@
 buildscript {
+    ext.kotlin_version = '1.7.20'
     repositories { jcenter() }
 
     dependencies {
         classpath 'ru.alfalab.gradle:cucumber-reporting-gradle-plugin:0.1.0'
         classpath 'ru.alfalab.gradle:cucumber-parallel-test-gradle-plugin:0.3.1'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -17,6 +19,7 @@ repositories {
 }
 
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'groovy'
 apply plugin: 'ru.alfalab.cucumber-reporting'
 apply plugin: 'ru.alfalab.cucumber-parallel-test'
@@ -33,6 +36,7 @@ if (project.hasProperty('projVersion')) {
 
 dependencies {
     compile 'ru.alfabank.tests:akita:4.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -92,4 +96,14 @@ task makeZip(type: Zip) {
 license {
     header rootProject.file('HEADER')
     strictCheck true
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
